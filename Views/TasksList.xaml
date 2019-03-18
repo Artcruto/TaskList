@@ -1,0 +1,19 @@
+﻿<Window x:Class="TasksList.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:TasksList"
+        mc:Ignorable="d"
+        Title="TasksList" Height="450" Width="350
+        ">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="201*"/>
+            <ColumnDefinition Width="110*"/>
+        </Grid.ColumnDefinitions>
+        <Grid HorizontalAlignment="Left" Height="350" Margin="-8,69,0,0" VerticalAlignment="Top" Width="350" Grid.ColumnSpan="2"/>
+        <DatePicker Language="ru-RU" HorizontalAlignment="Left" Margin="0,24,0,0" VerticalAlignment="Top" Width="167"/>
+        <Button Content="Добавить задачу" HorizontalAlignment="Left" Margin="190,24,0,0" VerticalAlignment="Top" Width="152" Grid.ColumnSpan="2" Height="25"/>
+    </Grid>
+</Window>

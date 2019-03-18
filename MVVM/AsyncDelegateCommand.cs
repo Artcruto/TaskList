@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
 
-namespace TaskList
+namespace TasksList
 {
     public class AsyncDelegateCommand : ICommand
     {

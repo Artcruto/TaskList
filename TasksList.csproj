@@ -61,7 +61,11 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Page Include="Views\TaskList.xaml">
+    <Page Include="Controls\TaskModelControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\TasksList.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -69,14 +73,23 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="AsyncDelegateCommand.cs" />
-    <Compile Include="Views\TaskList.xaml.cs">
-      <DependentUpon>TaskList.xaml</DependentUpon>
+    <Compile Include="Models\IModel.cs" />
+    <Compile Include="MVVM\AsyncDelegateCommand.cs" />
+    <Compile Include="Controls\TaskModelControl.xaml.cs">
+      <DependentUpon>TaskModelControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Interfaces\ITaskList.cs" />
+    <Compile Include="MVVM\BoolToVisibility.cs" />
+    <Compile Include="MVVM\BoolToVisibilityInverse.cs" />
+    <Compile Include="MVVM\CountToVisibility.cs" />
+    <Compile Include="MVVM\CountToVisibilityInverse.cs" />
+    <Compile Include="Views\TasksList.xaml.cs">
+      <DependentUpon>TasksList.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Models\Tasks.cs" />
+    <Compile Include="Models\TaskModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -105,9 +118,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="ViewModels\" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="ReleaseNotes.css" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

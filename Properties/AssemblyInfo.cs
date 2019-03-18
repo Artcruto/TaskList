@@ -7,11 +7,11 @@ using System.Windows;
 // Общие сведения об этой сборке предоставляются следующим набором
 // набор атрибутов. Измените значения этих атрибутов, чтобы изменить сведения,
 // связанные со сборкой.
-[assembly: AssemblyTitle("TaskList")]
+[assembly: AssemblyTitle("TasksList")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("TaskList")]
+[assembly: AssemblyProduct("TasksList")]
 [assembly: AssemblyCopyright("Copyright ©  2019")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
