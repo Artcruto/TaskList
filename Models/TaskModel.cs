@@ -10,6 +10,6 @@ namespace TasksList.Models
     {
         public string Content { get; set; }
         public bool IsDone { get; set; }
-        public DateTime DT { get; set; }
+        public DateTime Date { get; set; }
     }
 }

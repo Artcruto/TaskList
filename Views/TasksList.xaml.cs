@@ -5,6 +5,7 @@ using System.ComponentModel;
 using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -16,97 +17,138 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using TasksList.Models;
 
 namespace TasksList
 {
-    public partial class TasksList : Window, INotifyPropertyChanged
+    /// <summary>
+    /// Логика взаимодействия для MainWindow.xaml
+    /// </summary>
+    public partial class MainWindow : Window, INotifyPropertyChanged
     {
-        private string SqlConnection = "Server=DESKTOP-6KH69CQ;Database=TasksList;Integrated Security=True ";
+        private string SqlConnection = @"Data Source=DESKTOP-6KH69CQ; Initial Catalog=tasks; Integrated Security=SSPI";
 
-        private Interfaces.IDataRepository<Models.TaskModel> _repo;
+        private const string NotCompleted = "Не выполнено заданий - ";
+
+        private const string AllDone = "Все задачи выполнены";
 
         public event PropertyChangedEventHandler PropertyChanged;
 
         public ObservableCollection<Models.TaskModel> Tasks { get; set; }
-        public ObservableCollection<Controls.TaskModelControl> TaskControlList { get; set; }
 
-        public TasksList()
+        public string _TasksStateString;
+
+        public string TasksStateString
+        {
+            get
+            {
+                return _TasksStateString;
+            }
+
+            set
+            {
+                _TasksStateString = value;
+                OnPropertyChanged("Content");
+            }
+        }
+
+        private string _ForeGround;
+
+        public string ForeGround
+        {
+            get
+            {
+                return _ForeGround;
+            }
+
+            set
+            {
+                _ForeGround = value;
+                OnPropertyChanged("Foreground");
+            }
+        }
+
+        private string _LabelBackGround;
+
+        public string LabelBackGround
+        {
+            get
+            {
+                return _LabelBackGround;
+            }
+
+            set
+            {
+                _LabelBackGround = value;
+                OnPropertyChanged("Background");
+            }
+        }
+
+        private void OnPropertyChanged([CallerMemberName]string prop = "")
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(prop));
+        }
+
+        public MainWindow()
         {
             InitializeComponent();
-            //this._repo
-            //_repo.DataChanged += (s) => { Load(); };
             Tasks = new ObservableCollection<Models.TaskModel>();
-            TaskControlList = new ObservableCollection<Controls.TaskModelControl>();
             this.DataContext = this;
             var conn = new SqlConnection(SqlConnection);
             HasRows(conn);
-            //   Load();
-        }
-
-        private void Load()
-        {
-            Tasks.Clear();
-            Tasks = _repo.GetAll();
-            CreateControls();
-
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("TaskControlList"));
-        }
-
-        private void Button_Click(object sender, RoutedEventArgs e)
-        {
-            //var model = new Models.TaskModel() { Content = MyTextBox.Text, IsDone = false };
-            //_repo.Add(model);
-
         }
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
             var conn = new SqlConnection(SqlConnection);
             HasRows(conn);
-            // Load();
         }
 
-        private void CreateControls()
-        {
-            //TaskControlList.Clear();
-            //foreach (var model in TasksList)
-            //{
-            //    var control = new Controls.TaskModelControl(model, _repo);
-            //    TaskControlList.Add(control);
-            //}
-        }
-
-        static void HasRows(SqlConnection conn)
+        void HasRows(SqlConnection conn)
         {
             using (conn)
             {
-                SqlCommand command = new SqlCommand("GetAll_Tasks", conn);
+                SqlCommand command = new SqlCommand("get_tasks", conn);
                 conn.Open();
 
                 SqlDataReader reader = command.ExecuteReader();
-
-                DataTable schemaTable = reader.GetSchemaTable();
-
-             //   Tasks = ref schemaTable;
 
                 if (reader.HasRows)
                 {
                     while (reader.Read())
                     {
-                        //                      Console.WriteLine("{0}\t{1}", reader.GetInt32(0), reader.GetString(1));
+                        var task = new TaskModel();
+                        task.Id = Convert.ToInt32(reader["id"]);
+                        task.Content = reader["content"].ToString();
+                        task.IsDone = Convert.ToBoolean(reader["is_done"]);
+                        task.Date = Convert.ToDateTime(reader["dt"]).Date;
+                        Tasks.Add(task);
                     }
-                }
-                else
-                {
-                    Console.WriteLine("No rows found.");
                 }
                 reader.Close();
             }
+            Change_TasksStateString();
+        }
+
+        private void Change_TasksStateString()
+        {
+            if (Tasks.Where(t => t.IsDone == false).Any())
+            {
+                _TasksStateString = NotCompleted;
+                _LabelBackGround = "#Red";
+            }
+            else
+            {
+                _TasksStateString = AllDone;
+                _LabelBackGround = "Green";
+            }
+
+            _ForeGround = "white";
         }
 
         static void DeleteTask(SqlConnection conn)
         {
-            using (SqlCommand cmd = new SqlCommand("GettAll_Tasks", conn))
+            using (SqlCommand cmd = new SqlCommand("update_task", conn))
             {
                 cmd.CommandType = CommandType.StoredProcedure;
 

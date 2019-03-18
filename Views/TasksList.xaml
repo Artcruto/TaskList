@@ -5,15 +5,30 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:TasksList"
         mc:Ignorable="d"
-        Title="TasksList" Height="450" Width="350
-        ">
-    <Grid>
+        Title="TasksList" Height="528.166" Width="434.949" WindowStartupLocation="CenterScreen" ResizeMode="CanMinimize" WindowStyle="ThreeDBorderWindow" Foreground="White" ShowInTaskbar="False" Background="White">
+    <Grid Background="#FF386591">
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="201*"/>
-            <ColumnDefinition Width="110*"/>
+            <ColumnDefinition Width="43*"/>
+            <ColumnDefinition Width="198*"/>
+            <ColumnDefinition Width="15*"/>
+            <ColumnDefinition Width="78*"/>
+            <ColumnDefinition Width="95*"/>
+            <ColumnDefinition Width="0*"/>
         </Grid.ColumnDefinitions>
-        <Grid HorizontalAlignment="Left" Height="350" Margin="-8,69,0,0" VerticalAlignment="Top" Width="350" Grid.ColumnSpan="2"/>
-        <DatePicker Language="ru-RU" HorizontalAlignment="Left" Margin="0,24,0,0" VerticalAlignment="Top" Width="167"/>
-        <Button Content="Добавить задачу" HorizontalAlignment="Left" Margin="190,24,0,0" VerticalAlignment="Top" Width="152" Grid.ColumnSpan="2" Height="25"/>
+        <DataGrid AutoGenerateColumns="False" Foreground="{Binding ForeGround}" ItemsSource="{Binding Tasks}" VerticalAlignment="Stretch" Margin="0,92,0,0" Grid.ColumnSpan="5" Background="#FF709CE8" FontSize="14">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Задание" Width="300" Foreground="{Binding ForeGround}"
+                             Binding="{Binding Content}"></DataGridTextColumn>
+                <DataGridCheckBoxColumn Header="Выполнено"
+                             Binding="{Binding IsDone}"></DataGridCheckBoxColumn>
+            </DataGrid.Columns>
+        </DataGrid>
+        <Label 
+               Content="{Binding TasksStateString}" Background="{Binding LabelBackGround}" Foreground="{Binding ForeGround}"
+               HorizontalContentAlignment="Center" HorizontalAlignment="Center" Margin="0,46,0,0" VerticalAlignment="Top"
+               Width="429" Grid.ColumnSpan="5" Height="46" FontSize="20" FontFamily="Microsoft Sans Serif" FontWeight="Medium"
+               TextOptions.TextHintingMode="Animated" FontStretch="ExtraCondensed">
+        </Label>
+        <DatePicker Language="ru-RU" HorizontalAlignment="Center" Margin="27,16,76,0" VerticalAlignment="Top" Width="283" Grid.ColumnSpan="4" Grid.Column="1"/>
     </Grid>
 </Window>

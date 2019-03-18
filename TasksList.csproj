@@ -61,10 +61,6 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Page Include="Controls\TaskModelControl.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="Views\TasksList.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -75,9 +71,6 @@
     </Compile>
     <Compile Include="Models\IModel.cs" />
     <Compile Include="MVVM\AsyncDelegateCommand.cs" />
-    <Compile Include="Controls\TaskModelControl.xaml.cs">
-      <DependentUpon>TaskModelControl.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Interfaces\ITaskList.cs" />
     <Compile Include="MVVM\BoolToVisibility.cs" />
     <Compile Include="MVVM\BoolToVisibilityInverse.cs" />

@@ -13,6 +13,5 @@ namespace TasksList.Interfaces
         void Add(Ttype entity);
         void Save(Ttype entity);
         void Delete(Ttype entity);
-     //   event Data.DataChangedEventHandler<Ttype> DataChanged;
     }
 }
