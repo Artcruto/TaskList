@@ -43,6 +43,9 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Windows.Interactivity, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>packages\Expression.Blend.Sdk.1.0.2\lib\net45\System.Windows.Interactivity.dll</HintPath>
+    </Reference>
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Core" />
@@ -70,12 +73,9 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Models\IModel.cs" />
-    <Compile Include="MVVM\AsyncDelegateCommand.cs" />
-    <Compile Include="Interfaces\ITaskList.cs" />
-    <Compile Include="MVVM\BoolToVisibility.cs" />
-    <Compile Include="MVVM\BoolToVisibilityInverse.cs" />
-    <Compile Include="MVVM\CountToVisibility.cs" />
-    <Compile Include="MVVM\CountToVisibilityInverse.cs" />
+    <Compile Include="MVVM\DelegateCommand.cs" />
+    <Compile Include="MVVM\IDelegateCommand.cs" />
+    <Compile Include="ViewModels\TasksListViewModel.cs" />
     <Compile Include="Views\TasksList.xaml.cs">
       <DependentUpon>TasksList.xaml</DependentUpon>
       <SubType>Code</SubType>
@@ -109,8 +109,6 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="ViewModels\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
