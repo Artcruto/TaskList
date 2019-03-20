@@ -56,7 +56,7 @@
         <Button Grid.ColumnSpan="4" Content="Добавить новую задачу" HorizontalAlignment="Left" Command="{Binding AddTask}" Background="#FF386591"
                 Margin="0,473.8,0,0" VerticalAlignment="Top" Width="429" RenderTransformOrigin="0.024,0.322" Height="42" FontSize="18" Grid.Row="1"/>
 
-        <DatePicker Text="{Binding ChosenDate}" SelectedDateFormat="Long"
+        <DatePicker SelectedDate="{Binding ChosenDate}" SelectedDateFormat="Long"
                     Background="#FF386591" Language="ru-RU" Grid.Column="2" Margin="0,10,63,0"
                     VerticalAlignment="Top" Height="25" Grid.ColumnSpan="2" Grid.RowSpan="2"
                     HorizontalAlignment="Right" Width="298">

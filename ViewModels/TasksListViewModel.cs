@@ -25,7 +25,6 @@ namespace TasksList.ViewModels
 
         private DateTime _chosenDate = DateTime.Now.Date;
 
-
         private ObservableCollection<TasksList.Models.TaskModel> _tasksList;
 
         private int _ItemIndex;
@@ -35,6 +34,8 @@ namespace TasksList.ViewModels
         private string _tasksStateString;
 
         private string _foreGround;
+
+        private readonly DelegateCommand _taskEditCommand;
 
         public event PropertyChangedEventHandler PropertyChanged;
 
@@ -62,6 +63,7 @@ namespace TasksList.ViewModels
             set
             {
                 _chosenDate = value;
+                LoadTasks();
                 OnPropertyChanged(nameof(ChosenDate));
             }
         }
@@ -108,7 +110,6 @@ namespace TasksList.ViewModels
             }
         }
 
-
         public int ItemIndex
         {
             get
@@ -132,12 +133,9 @@ namespace TasksList.ViewModels
             LoadTasks();
         }
 
-        private void SyncTask()
+        private void OnPropertyChanged([CallerMemberName]string prop = "")
         {
-            if (ItemIndex == -1)
-                return;
-            var task = TasksList[ItemIndex];
-            SyncTask(task);
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(prop));
         }
 
         private void Tasks_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
@@ -155,12 +153,15 @@ namespace TasksList.ViewModels
             Change_TasksState();
         }
 
-        private void OnPropertyChanged([CallerMemberName]string prop = "")
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(prop));
-        }
-
         public DelegateCommand AddTask => new DelegateCommand((obj) => TasksList.Add(new TaskModel()));
+
+        private void SyncTask()
+        {
+            if (ItemIndex == -1)
+                return;
+            var task = TasksList[ItemIndex];
+            SyncTask(task);
+        }
 
         public void SyncTask(TaskModel task)
         {
@@ -181,6 +182,7 @@ namespace TasksList.ViewModels
                     cmd.ExecuteNonQuery();
                 }
                 conn.Close();
+                LoadTasks();
                 Change_TasksState();
             }
             catch (Exception ex)
@@ -219,6 +221,7 @@ namespace TasksList.ViewModels
 
         public void LoadTasks()
         {
+            TasksList.Clear();
             using (SqlCommand cmd = new SqlCommand("get_tasks_by_date", conn))
             {
                 cmd.CommandType = CommandType.StoredProcedure;
@@ -244,8 +247,6 @@ namespace TasksList.ViewModels
             }
             Change_TasksState();
         }
-
-        private readonly DelegateCommand _taskEditCommand;
 
         public DelegateCommand ChangeTask
         {
