@@ -17,25 +17,25 @@ namespace TasksList.ViewModels
 {
     class TasksListViewModel : INotifyPropertyChanged
     {
-        private SqlConnection conn = new SqlConnection(@"Data Source=DESKTOP-6KH69CQ; Initial Catalog=tasks; Integrated Security=SSPI");
+        private SqlConnection Conn = new SqlConnection(@"Data Source=DESKTOP-6KH69CQ; Initial Catalog=tasks; Integrated Security=SSPI");
 
         private const string NotCompleted = "Не выполнено заданий - ";
 
         private const string AllDone = "Все задачи выполнены";
 
-        private DateTime _chosenDate = DateTime.Now.Date;
+        private DateTime _ChosenDate = DateTime.Now.Date;
 
-        private ObservableCollection<TasksList.Models.TaskModel> _tasksList;
+        private ObservableCollection<TasksList.Models.TaskModel> _TasksList;
 
         private int _ItemIndex;
 
-        private string _labelBackGround;
+        private string _LabelBackGround;
 
-        private string _tasksStateString;
+        private string _TasksStateString;
 
-        private string _foreGround;
+        private string _ForeGround;
 
-        private readonly DelegateCommand _taskEditCommand;
+        private readonly DelegateCommand _TaskEditCommand;
 
         public event PropertyChangedEventHandler PropertyChanged;
 
@@ -43,12 +43,12 @@ namespace TasksList.ViewModels
         {
             get
             {
-                return _tasksList;
+                return _TasksList;
             }
 
             set
             {
-                _tasksList = value;
+                _TasksList = value;
                 OnPropertyChanged(nameof(TasksList));
             }
         }
@@ -57,12 +57,12 @@ namespace TasksList.ViewModels
         {
             get
             {
-                return _chosenDate;
+                return _ChosenDate;
             }
 
             set
             {
-                _chosenDate = value;
+                _ChosenDate = value;
                 LoadTasks();
                 OnPropertyChanged(nameof(ChosenDate));
             }
@@ -72,12 +72,12 @@ namespace TasksList.ViewModels
         {
             get
             {
-                return _tasksStateString;
+                return _TasksStateString;
             }
 
             set
             {
-                _tasksStateString = value;
+                _TasksStateString = value;
                 OnPropertyChanged(nameof(TasksStateString));
             }
         }
@@ -86,12 +86,12 @@ namespace TasksList.ViewModels
         {
             get
             {
-                return _foreGround;
+                return _ForeGround;
             }
 
             set
             {
-                _foreGround = value;
+                _ForeGround = value;
                 OnPropertyChanged(nameof(ForeGround));
             }
         }
@@ -100,12 +100,12 @@ namespace TasksList.ViewModels
         {
             get
             {
-                return _labelBackGround;
+                return _LabelBackGround;
             }
 
             set
             {
-                _labelBackGround = value;
+                _LabelBackGround = value;
                 OnPropertyChanged(nameof(LabelBackGround));
             }
         }
@@ -124,12 +124,11 @@ namespace TasksList.ViewModels
             }
         }
 
-
         public TasksListViewModel()
         {
             TasksList = new ObservableCollection<TasksList.Models.TaskModel>();
             TasksList.CollectionChanged += Tasks_CollectionChanged;
-            _taskEditCommand = new DelegateCommand((s) => SyncTask());
+            _TaskEditCommand = new DelegateCommand((s) => SyncTask());
             LoadTasks();
         }
 
@@ -169,8 +168,8 @@ namespace TasksList.ViewModels
                 return;
             try
             {
-                conn.Open();
-                using (SqlCommand cmd = new SqlCommand("update_task", conn))
+                Conn.Open();
+                using (SqlCommand cmd = new SqlCommand("update_task", Conn))
                 {
                     cmd.CommandType = CommandType.StoredProcedure;
 
@@ -181,7 +180,7 @@ namespace TasksList.ViewModels
 
                     cmd.ExecuteNonQuery();
                 }
-                conn.Close();
+                Conn.Close();
                 LoadTasks();
                 Change_TasksState();
             }
@@ -195,13 +194,13 @@ namespace TasksList.ViewModels
         {
             try
             {
-                conn.Open();
+                Conn.Open();
                 lock (oldItems.SyncRoot)
                 {
                     foreach (var item in oldItems)
                     {
                         var task = item as TaskModel;
-                        using (SqlCommand cmd = new SqlCommand("del_task", conn))
+                        using (SqlCommand cmd = new SqlCommand("del_task", Conn))
                         {
                             cmd.CommandType = CommandType.StoredProcedure;
 
@@ -211,7 +210,7 @@ namespace TasksList.ViewModels
                         }
                     }
                 }
-                conn.Close();
+                Conn.Close();
             }
             catch (Exception ex)
             {
@@ -222,11 +221,11 @@ namespace TasksList.ViewModels
         public void LoadTasks()
         {
             TasksList.Clear();
-            using (SqlCommand cmd = new SqlCommand("get_tasks_by_date", conn))
+            using (SqlCommand cmd = new SqlCommand("get_tasks_by_date", Conn))
             {
                 cmd.CommandType = CommandType.StoredProcedure;
                 cmd.Parameters.AddWithValue("@dt", ChosenDate);
-                conn.Open();
+                Conn.Open();
 
                 SqlDataReader reader = cmd.ExecuteReader();
 
@@ -243,14 +242,14 @@ namespace TasksList.ViewModels
                     }
                 }
                 reader.Close();
-                conn.Close();
+                Conn.Close();
             }
             Change_TasksState();
         }
 
         public DelegateCommand ChangeTask
         {
-            get { return _taskEditCommand; }
+            get { return _TaskEditCommand; }
             set { }
         }
 

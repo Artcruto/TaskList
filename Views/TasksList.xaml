@@ -8,7 +8,7 @@
         xmlns:vm="clr-namespace:TasksList.ViewModels"
         xmlns:command="http://www.galasoft.ch/mvvmlight"
         mc:Ignorable="d"
-        Title="TasksList" Height="584.754" Width="440.338" WindowStartupLocation="CenterScreen" 
+        Title="TasksList" Height="584.754" Width="420" WindowStartupLocation="CenterScreen" 
         ResizeMode="CanMinimize" Background="#FF386591" WindowStyle="ThreeDBorderWindow" ShowInTaskbar="False">
 
 
@@ -24,41 +24,50 @@
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="0*"/>
             <ColumnDefinition Width="0*"/>
-            <ColumnDefinition Width="218*"/>
-            <ColumnDefinition Width="211*"/>
+            <ColumnDefinition Width="103*"/>
+            <ColumnDefinition Width="20*"/>
+            <ColumnDefinition Width="63*"/>
+            <ColumnDefinition Width="35*"/>
+            <ColumnDefinition Width="42*"/>
+            <ColumnDefinition Width="171*"/>
             <ColumnDefinition Width="0*"/>
             <ColumnDefinition Width="0*"/>
             <ColumnDefinition Width="0*"/>
         </Grid.ColumnDefinitions>
         <DataGrid x:Name="tasksDataGrid" AutoGenerateColumns="False" CanUserAddRows="False" Foreground="{Binding ForeGround}" ItemsSource="{Binding TasksList}" SelectedIndex="{Binding ItemIndex}"
-                  VerticalAlignment="Top" Margin="0,66.8,0,0" Grid.ColumnSpan="4" Background="#FF709CE8" FontSize="14" Height="407" Grid.Row="1">
+                  VerticalAlignment="Top" Margin="0,67,0,0" Grid.ColumnSpan="8" Background="#FF709CE8" FontSize="14" Height="407" Grid.Row="1">
 
             <i:Interaction.Triggers>
                 <i:EventTrigger EventName="CurrentCellChanged" >
                     <i:InvokeCommandAction Command="{Binding ChangeTask}" />
                 </i:EventTrigger>
             </i:Interaction.Triggers>
-            
+
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Задание" Width="300" Foreground="{Binding ForeGround}"
-                             Binding="{Binding Content, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"></DataGridTextColumn>
-                <DataGridCheckBoxColumn Header="Выполнено"
-                             Binding="{Binding IsDone}"></DataGridCheckBoxColumn>
+                             Binding="{Binding Content, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                <DataGridTemplateColumn Header="Выполнено" Width="100">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <CheckBox HorizontalAlignment="Center" VerticalAlignment="Center" IsChecked="{Binding IsDone, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
             </DataGrid.Columns>
         </DataGrid>
 
         <Label Content="{Binding TasksStateString, Mode=OneWay}" Background="{Binding LabelBackGround, Mode=OneWay}" Foreground="{Binding ForeGround, Mode=OneWay}"
-               HorizontalContentAlignment="Center" HorizontalAlignment="Center" Margin="0,27,0,0" VerticalAlignment="Top"
-               Width="429" Grid.ColumnSpan="4" Height="40" FontSize="20" FontFamily="Microsoft New Tai Lue"
+               HorizontalContentAlignment="Center" HorizontalAlignment="Center" Margin="2,27,2,0" VerticalAlignment="Top"
+               Width="430" Grid.ColumnSpan="8" Height="40" FontSize="20" FontFamily="Microsoft New Tai Lue"
                TextOptions.TextHintingMode="Animated" FontStretch="ExtraCondensed" Grid.Row="1"/>
-        
 
-        <Button Grid.ColumnSpan="4" Content="Добавить новую задачу" HorizontalAlignment="Left" Command="{Binding AddTask}" Background="#FF386591"
-                Margin="0,473.8,0,0" VerticalAlignment="Top" Width="429" RenderTransformOrigin="0.024,0.322" Height="42" FontSize="18" Grid.Row="1"/>
+
+        <Button Grid.ColumnSpan="8" Content="Добавить новую задачу" HorizontalAlignment="Left" Command="{Binding AddTask}" Background="#FF386591"
+                Margin="0,474,0,0" VerticalAlignment="Top" Width="410" RenderTransformOrigin="0.024,0.322" Height="42" FontSize="18" Grid.Row="1"/>
 
         <DatePicker SelectedDate="{Binding ChosenDate}" SelectedDateFormat="Long"
-                    Background="#FF386591" Language="ru-RU" Grid.Column="2" Margin="0,10,63,0"
-                    VerticalAlignment="Top" Height="25" Grid.ColumnSpan="2" Grid.RowSpan="2"
+                    Background="#FF386591" Language="ru-RU" Grid.Column="2" Margin="0,10,44,0"
+                    VerticalAlignment="Top" Height="25" Grid.ColumnSpan="6" Grid.RowSpan="2"
                     HorizontalAlignment="Right" Width="298">
         </DatePicker>
     </Grid>
